@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="library_asset")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discriminator", type="string")
+ * @ORM\DiscriminatorMap({
+ *     Book::BOOK_DISCRIMINATOR = Book::class,
+ * })
  */
 abstract class LibraryAsset {
     /**
