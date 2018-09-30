@@ -42,6 +42,12 @@ abstract class LibraryAsset {
      */
     private $numberOfCopies;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Status")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +97,18 @@ abstract class LibraryAsset {
     public function setNumberOfCopies(int $numberOfCopies): self
     {
         $this->numberOfCopies = $numberOfCopies;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
