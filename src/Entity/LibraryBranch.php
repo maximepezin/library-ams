@@ -3,6 +3,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +44,16 @@ class LibraryBranch
      * @ORM\Column(name="open_date", type="date")
      */
     private $openDate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BranchHour", mappedBy="libraryBranch", orphanRemoval=true)
+     */
+    private $branchHours;
+
+    public function __construct()
+    {
+        $this->branchHours = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +116,39 @@ class LibraryBranch
     public function setOpenDate(\DateTimeInterface $openDate): self
     {
         $this->openDate = $openDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BranchHour[]
+     */
+    public function getBranchHours(): Collection
+    {
+        return $this->branchHours;
+    }
+
+    public function addBranchHour(BranchHour $branchHour): self
+    {
+        if (!$this->branchHours->contains($branchHour)) {
+            $this->branchHours[] = $branchHour;
+
+            $branchHour->setLibraryBranch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBranchHour(BranchHour $branchHour): self
+    {
+        if ($this->branchHours->contains($branchHour)) {
+            $this->branchHours->removeElement($branchHour);
+
+            // set the owning side to null (unless already changed)
+            if ($branchHour->getLibraryBranch() === $this) {
+                $branchHour->setLibraryBranch(null);
+            }
+        }
 
         return $this;
     }

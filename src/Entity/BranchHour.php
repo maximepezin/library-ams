@@ -33,6 +33,12 @@ class BranchHour
      */
     private $closeTime;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LibraryBranch", inversedBy="branchHours")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $libraryBranch;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +76,18 @@ class BranchHour
     public function setCloseTime(\DateTimeInterface $closeTime): self
     {
         $this->closeTime = $closeTime;
+
+        return $this;
+    }
+
+    public function getLibraryBranch(): ?LibraryBranch
+    {
+        return $this->libraryBranch;
+    }
+
+    public function setLibraryBranch(LibraryBranch $libraryBranch): self
+    {
+        $this->libraryBranch = $libraryBranch;
 
         return $this;
     }
