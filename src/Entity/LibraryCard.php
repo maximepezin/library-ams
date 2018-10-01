@@ -28,6 +28,11 @@ class LibraryCard
      */
     private $created;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Patron", mappedBy="libraryCard", cascade={"persist", "remove"})
+     */
+    private $patron;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +58,23 @@ class LibraryCard
     public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
+    }
+
+    public function getPatron(): ?Patron
+    {
+        return $this->patron;
+    }
+
+    public function setPatron(Patron $patron): self
+    {
+        $this->patron = $patron;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $patron->getLibraryCard()) {
+            $patron->setLibraryCard($this);
+        }
 
         return $this;
     }

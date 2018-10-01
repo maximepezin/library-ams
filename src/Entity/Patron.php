@@ -49,6 +49,12 @@ class Patron
      */
     private $homeLibraryBranch;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\LibraryCard", inversedBy="patron", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $libraryCard;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +128,18 @@ class Patron
     public function setHomeLibraryBranch(LibraryBranch $homeLibraryBranch): self
     {
         $this->homeLibraryBranch = $homeLibraryBranch;
+
+        return $this;
+    }
+
+    public function getLibraryCard(): ?LibraryCard
+    {
+        return $this->libraryCard;
+    }
+
+    public function setLibraryCard(LibraryCard $libraryCard): self
+    {
+        $this->libraryCard = $libraryCard;
 
         return $this;
     }
