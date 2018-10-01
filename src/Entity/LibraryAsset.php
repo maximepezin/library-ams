@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="discriminator", type="string")
  * @ORM\DiscriminatorMap({
  *     Book::BOOK_DISCRIMINATOR = Book::class,
+ *     Video::VIDEO_DISCRIMINATOR = Video::class,
  * })
  */
 abstract class LibraryAsset {
