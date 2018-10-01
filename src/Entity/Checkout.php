@@ -28,6 +28,12 @@ class Checkout
      */
     private $until;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LibraryAsset", inversedBy="checkouts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $libraryAsset;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +59,18 @@ class Checkout
     public function setUntil(\DateTimeInterface $until): self
     {
         $this->until = $until;
+
+        return $this;
+    }
+
+    public function getLibraryAsset(): ?LibraryAsset
+    {
+        return $this->libraryAsset;
+    }
+
+    public function setLibraryAsset(LibraryAsset $libraryAsset): self
+    {
+        $this->libraryAsset = $libraryAsset;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +50,16 @@ abstract class LibraryAsset {
      * @ORM\JoinColumn(nullable=false)
      */
     private $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Checkout", mappedBy="libraryAsset", orphanRemoval=true)
+     */
+    private $checkouts;
+
+    public function __construct()
+    {
+        $this->checkouts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -110,6 +122,39 @@ abstract class LibraryAsset {
     public function setStatus(Status $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Checkout[]
+     */
+    public function getCheckouts(): Collection
+    {
+        return $this->checkouts;
+    }
+
+    public function addCheckout(Checkout $checkout): self
+    {
+        if (!$this->checkouts->contains($checkout)) {
+            $this->checkouts[] = $checkout;
+
+            $checkout->setLibraryAsset($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCheckout(Checkout $checkout): self
+    {
+        if ($this->checkouts->contains($checkout)) {
+            $this->checkouts->removeElement($checkout);
+
+            // set the owning side to null (unless already changed)
+            if ($checkout->getLibraryAsset() === $this) {
+                $checkout->setLibraryAsset(null);
+            }
+        }
 
         return $this;
     }
