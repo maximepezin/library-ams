@@ -43,6 +43,12 @@ class Patron
      */
     private $birthDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LibraryBranch")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $homeLibraryBranch;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +110,18 @@ class Patron
     public function setBirthDate(\DateTimeInterface $birthDate): self
     {
         $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    public function getHomeLibraryBranch(): ?LibraryBranch
+    {
+        return $this->homeLibraryBranch;
+    }
+
+    public function setHomeLibraryBranch(LibraryBranch $homeLibraryBranch): self
+    {
+        $this->homeLibraryBranch = $homeLibraryBranch;
 
         return $this;
     }
