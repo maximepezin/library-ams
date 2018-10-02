@@ -34,6 +34,12 @@ class CheckoutHistory
      */
     private $libraryAsset;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LibraryCard")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $libraryCard;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +77,18 @@ class CheckoutHistory
     public function setLibraryAsset(LibraryAsset $libraryAsset): self
     {
         $this->libraryAsset = $libraryAsset;
+
+        return $this;
+    }
+
+    public function getLibraryCard(): ?LibraryCard
+    {
+        return $this->libraryCard;
+    }
+
+    public function setLibraryCard(LibraryCard $libraryCard): self
+    {
+        $this->libraryCard = $libraryCard;
 
         return $this;
     }
