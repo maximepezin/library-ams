@@ -34,6 +34,11 @@ class Checkout
      */
     private $libraryAsset;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LibraryCard")
+     */
+    private $libraryCard;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +76,18 @@ class Checkout
     public function setLibraryAsset(LibraryAsset $libraryAsset): self
     {
         $this->libraryAsset = $libraryAsset;
+
+        return $this;
+    }
+
+    public function getLibraryCard(): ?LibraryCard
+    {
+        return $this->libraryCard;
+    }
+
+    public function setLibraryCard(?LibraryCard $libraryCard = null): self
+    {
+        $this->libraryCard = $libraryCard;
 
         return $this;
     }
