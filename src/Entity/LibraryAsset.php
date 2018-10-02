@@ -52,6 +52,12 @@ abstract class LibraryAsset {
     private $status;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LibraryBranch")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $location;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Checkout", mappedBy="libraryAsset", orphanRemoval=true)
      */
     private $checkouts;
@@ -134,6 +140,18 @@ abstract class LibraryAsset {
     public function setStatus(Status $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getLocation(): ?LibraryBranch
+    {
+        return $this->location;
+    }
+
+    public function setLocation(LibraryBranch $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }
