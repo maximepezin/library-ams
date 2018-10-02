@@ -23,6 +23,11 @@ class Hold
      */
     private $holdPlaced;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LibraryAsset", inversedBy="holds")
+     */
+    private $libraryAsset;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +41,18 @@ class Hold
     public function setHoldPlaced(\DateTimeInterface $holdPlaced): self
     {
         $this->holdPlaced = $holdPlaced;
+
+        return $this;
+    }
+
+    public function getLibraryAsset(): ?LibraryAsset
+    {
+        return $this->libraryAsset;
+    }
+
+    public function setLibraryAsset(?LibraryAsset $libraryAsset = null): self
+    {
+        $this->libraryAsset = $libraryAsset;
 
         return $this;
     }

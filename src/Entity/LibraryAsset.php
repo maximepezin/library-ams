@@ -61,10 +61,16 @@ abstract class LibraryAsset {
      */
     private $checkoutHistories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Hold", mappedBy="libraryAsset")
+     */
+    private $holds;
+
     public function __construct()
     {
         $this->checkouts = new ArrayCollection();
         $this->checkoutHistories = new ArrayCollection();
+        $this->holds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,6 +198,39 @@ abstract class LibraryAsset {
             // set the owning side to null (unless already changed)
             if ($checkoutHistory->getLibraryAsset() === $this) {
                 $checkoutHistory->setLibraryAsset(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Hold[]
+     */
+    public function getHolds(): Collection
+    {
+        return $this->holds;
+    }
+
+    public function addHold(Hold $hold): self
+    {
+        if (!$this->holds->contains($hold)) {
+            $this->holds[] = $hold;
+            
+            $hold->setLibraryAsset($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHold(Hold $hold): self
+    {
+        if ($this->holds->contains($hold)) {
+            $this->holds->removeElement($hold);
+
+            // set the owning side to null (unless already changed)
+            if ($hold->getLibraryAsset() === $this) {
+                $hold->setLibraryAsset(null);
             }
         }
 
