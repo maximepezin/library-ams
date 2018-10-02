@@ -56,9 +56,15 @@ abstract class LibraryAsset {
      */
     private $checkouts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CheckoutHistory", mappedBy="libraryAsset", orphanRemoval=true)
+     */
+    private $checkoutHistories;
+
     public function __construct()
     {
         $this->checkouts = new ArrayCollection();
+        $this->checkoutHistories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,6 +159,39 @@ abstract class LibraryAsset {
             // set the owning side to null (unless already changed)
             if ($checkout->getLibraryAsset() === $this) {
                 $checkout->setLibraryAsset(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CheckoutHistory[]
+     */
+    public function getCheckoutHistories(): Collection
+    {
+        return $this->checkoutHistories;
+    }
+
+    public function addCheckoutHistory(CheckoutHistory $checkoutHistory): self
+    {
+        if (!$this->checkoutHistories->contains($checkoutHistory)) {
+            $this->checkoutHistories[] = $checkoutHistory;
+
+            $checkoutHistory->setLibraryAsset($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCheckoutHistory(CheckoutHistory $checkoutHistory): self
+    {
+        if ($this->checkoutHistories->contains($checkoutHistory)) {
+            $this->checkoutHistories->removeElement($checkoutHistory);
+            
+            // set the owning side to null (unless already changed)
+            if ($checkoutHistory->getLibraryAsset() === $this) {
+                $checkoutHistory->setLibraryAsset(null);
             }
         }
 

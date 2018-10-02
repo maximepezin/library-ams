@@ -28,6 +28,12 @@ class CheckoutHistory
      */
     private $checkedIn;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LibraryAsset", inversedBy="checkoutHistories")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $libraryAsset;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +59,18 @@ class CheckoutHistory
     public function setCheckedIn(?\DateTimeInterface $checkedIn = null): self
     {
         $this->checkedIn = $checkedIn;
+
+        return $this;
+    }
+
+    public function getLibraryAsset(): ?LibraryAsset
+    {
+        return $this->libraryAsset;
+    }
+
+    public function setLibraryAsset(LibraryAsset $libraryAsset): self
+    {
+        $this->libraryAsset = $libraryAsset;
 
         return $this;
     }
